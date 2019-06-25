@@ -38,23 +38,28 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    echo(event)
-
-def echo(event):
-    multi_reply = [TextSendMessage(text=event.message.text), TextSendMessage(text=event.source.user_id)]
+    doList = ["ECHO", "USERID"]
+    reply = makeReply(event, doList)
     line_bot_api.reply_message(
         event.reply_token,
-        multi_reply)
-
-def get_user_id(event):
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.source.user_id))
+        reply)
 
 
-def get_user_message(event):
+def makeReply(event, doList):
+    reply = []
+    for do in doList:
+        if do == "ECHO":
+            reply.append(TextSendMessage(text=getUserMessage(event)))
+        elif do == "USERID":
+            reply.append(TextSendMessage(text=getUserId(event)))
+    return reply
+
+
+def getUserMessage(event):
     return event.message.text
 
+def getUserId(event):
+    return event.source.user_id
 
 if __name__ == "__main__":
     app.run()

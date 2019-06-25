@@ -41,9 +41,10 @@ def handle_message(event):
     echo(event)
 
 def echo(event):
+    multi_reply = [TextMessage(text=event.message.text), TextMessage(text=event.source.user_id)]
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text))
+        TextSendMessage(multi_reply))
 
 def get_user_id(event):
     line_bot_api.reply_message(

@@ -48,7 +48,7 @@ def echo(event):
 def get_user_id(event):
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.source.userId))
+        TextSendMessage(text=event.source.user_id))
 
 
 def get_user_message(event):

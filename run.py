@@ -43,7 +43,7 @@ def handle_message(event):
 def echo(event):
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=[event.message.text, event.source.user_id]))
+        TextSendMessage(text=event.message.text))
 
 def get_user_id(event):
     line_bot_api.reply_message(

@@ -124,4 +124,4 @@ dmypy.json
 .pyre/
 
 # Keynote file
-.key
+*.key

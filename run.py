@@ -49,6 +49,7 @@ def makeReply(event, doList):
     reply = []
     for do in doList:
         if do == "ECHO":
+            print(getUserMessage(event))
             reply.append(TextSendMessage(text=getUserMessage(event)))
         elif do == "USERID":
             reply.append(TextSendMessage(text=getUserId(event)))

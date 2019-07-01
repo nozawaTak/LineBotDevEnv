@@ -125,3 +125,6 @@ dmypy.json
 
 # Keynote file
 *.key
+
+# others
+config.py

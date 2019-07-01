@@ -38,7 +38,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    doList = ["ECHO", "USERID"]
+    doList = ["ECHO"]
     reply = makeReply(event, doList)
     line_bot_api.reply_message(
         event.reply_token,

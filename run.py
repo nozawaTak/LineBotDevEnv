@@ -39,8 +39,8 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    doList = ["ECHO"]
-    reply = makeReply(event, doList)
+    replyTexts = playGame(event)
+    reply = makeReply(replyTexts)
     line_bot_api.reply_message(
         event.reply_token,
         reply)
@@ -52,7 +52,14 @@ def playGame(event):
     reply = game.step()
     return reply
 
-def makeReply(event, doList):
+def makeReply(textList):
+    reply = []
+    for text in textList:
+        reply.append(TextSendMessage(text=text))
+    return reply
+
+
+def makeEcho(event, doList):
     reply = []
     for do in doList:
         if do == "ECHO":

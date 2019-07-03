@@ -46,8 +46,11 @@ class Game():
         self.connection.commit()
         
     def step(self):
-        if self.player.state == "BATTLE":
-            battle = Battle(self.player.userId)
-            return battle.battle()
+        if self.player is not None:
+            if self.player.state == "BATTLE":
+                battle = Battle(self.player.userId)
+                return battle.battle()
+            else:
+                return ["still not implemented"]
         else:
-            return ["still not implemented"]
+            return ["regist your ID!"]

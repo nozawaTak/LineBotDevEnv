@@ -1,5 +1,6 @@
 from flask import Flask, request, abort
 import config
+from game import Game
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -44,6 +45,12 @@ def handle_message(event):
         event.reply_token,
         reply)
 
+def playGame(event):
+    message = getUserMessage(event)
+    userId = getUserId(event)
+    game = Game(userId)
+    reply = game.step()
+    return reply
 
 def makeReply(event, doList):
     reply = []

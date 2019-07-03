@@ -21,6 +21,7 @@ class EnemyInstance:
             self.speed = enemyInfo['enemySpeed']
             self.money = enemyInfo['enemyMoney']
             self.name = enemyInfo['enemyName']
+            self.enemyId = enemyInfo['enemyId']
 
     @property
     def hp(self):

@@ -23,8 +23,8 @@ class Battle():
                                     charset = 'utf8',
                                     cursorclass = pymysql.cursors.DictCursor)
         with connection.cursor() as cursor:
-            sql = "INSERT INTO BATTLEINFO (enemyHP, enemyAttack, enemyDefense, enemySpeed, enemyMoney, enemyName) VALUES (%s, %s, %s, %s, %s, %s)"
-            values = (enemy.hp, enemy.attack, enemy.defense, enemy.speed, enemy.money, enemy.name)
+            sql = "INSERT INTO BATTLEINFO (enemyHP, enemyAttack, enemyDefense, enemySpeed, enemyMoney, enemyName, enemyId) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            values = (enemy.hp, enemy.attack, enemy.defense, enemy.speed, enemy.money, enemy.name, enemyID)
             cursor.execute(sql, values)
             battleID = cursor.lastrowid
             connection.commit()
@@ -82,6 +82,7 @@ class Battle():
         text = self.enemy.name + "に負けてしまった...\n"
         text += str(loss) + "円失ってしまった..."
         self.player.money = self.player.money - loss
+        self.player.hp = 50
         self.result.append(text)
         self._finishBattle()
         reply = self.result

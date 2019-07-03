@@ -82,19 +82,21 @@ class Player:
     
     @position_x.setter
     def position_x(self, position_x):
-        self.__position_y = position_x
-        with self.connection.cursor() as cursor:
-            sql = "UPDATE USER SET position_x = %s WHERE id = %s"
-            cursor.execute(sql, (position_x, self.userId))
-        self.connection.commit()
+        if self.__position_x != position_x:
+            self.__position_x = position_x
+            with self.connection.cursor() as cursor:
+                sql = "UPDATE USER SET position_x = %s WHERE id = %s"
+                cursor.execute(sql, (position_x, self.userId))
+            self.connection.commit()
 
     @position_y.setter
     def position_y(self, position_y):
-        self.__position_y = position_y
-        with self.connection.cursor() as cursor:
-            sql = "UPDATE USER SET position_y = %s WHERE id = %s"
-            cursor.execute(sql, (position_y, self.userId))
-        self.connection.commit()
+        if self.__position_y != position_y:
+            self.__position_y = position_y
+            with self.connection.cursor() as cursor:
+                sql = "UPDATE USER SET position_y = %s WHERE id = %s"
+                cursor.execute(sql, (position_y, self.userId))
+            self.connection.commit()
 
     @battleID.setter
     def battleID(self, battleID):

@@ -49,16 +49,21 @@ def playGame(event):
     message = getUserMessage(event)
     userId = getUserId(event)
     userName = getUserName(userId)
-    game = Game(userId, userName)
-    reply = game.step(message)
+    game = Game(userId)
+    if game.Registered:
+        reply = game.step(message)
+    else:
+        reply = game.registUser(userId, userName)
     return reply
 
 def makeReply(replyDict):
     reply = []
+    print(replyDict)
     if "img" in replyDict:
-        imageURI = replyDict["img"]
-        reply.append(ImageSendMessage(original_content_url=imageURI, preview_image_url=imageURI))
-        print("sendImage")
+        imageList = replyDict["img"]
+        print(imageList)
+        for imageURI in imageList:
+            reply.append(ImageSendMessage(original_content_url=imageURI, preview_image_url=imageURI))
     if "text" in replyDict:
         textList = replyDict["text"]
         for text in textList:

@@ -20,4 +20,5 @@ class Enemy:
             self.defense = enemyInfo['defense']
             self.speed = enemyInfo['speed']
             self.money = enemyInfo['money']
+            self.imagePath = enemyInfo['imagePath']
         connection.close()

@@ -5,7 +5,7 @@ import pymysql
 import config
 
 class Game():
-    def __init__(self, userID, userName):
+    def __init__(self, userID):
         self.player = None
         dbinfo = config.getInfoToConnectDB()
         self.connection = pymysql.connect(host = dbinfo['host'],
@@ -16,8 +16,10 @@ class Game():
                             cursorclass = pymysql.cursors.DictCursor)
         if self._exist(userID):
             self.player = Player(userID)
+            self.Registered = True
         else:
-            self._registUser(userID, userName)
+            self.Registered = False
+
 
     def _exist(self, id):
         with self.connection.cursor() as cursor:
@@ -28,14 +30,14 @@ class Game():
         else:
             return True
 
-    def _registUser(self, userID, userName):
+    def registUser(self, userID, userName):
         with self.connection.cursor() as cursor:
             name = userName
             money = 1000
             position_x = 200
             position_y = 200
             hp = 30
-            state = "BATTLE"
+            state = "WORLD"
             battleID = None
             sql = "INSERT INTO EQUIPMENT(equip_weapon, equip_armor) VALUES(1, 1)"
             cursor.execute(sql)
@@ -45,6 +47,9 @@ class Game():
             print(values)
             cursor.execute(sql, values)
         self.connection.commit()
+        world = World(userID)
+        imageURI = world.getInitMap()
+        return {"img": [imageURI], "text": ["あなたのセーブデータを作成しました！"]}
         
     def step(self, text):
         if self.player is not None:
@@ -54,8 +59,10 @@ class Game():
             elif self.player.state == "WORLD":
                 world = World(self.player.userId)
                 imageURI = world.move(text)
-                return {"img": imageURI}
+                encount, enemyInfo = world.randomEncount()
+                if encount:
+                    self.player.state = "BATTLE"
+                    return {"img": [imageURI, enemyInfo["img"]], "text": [enemyInfo["text"]]}
+                return {"img": [imageURI]}
             else:
                 return {"text": ["still not implemented"]}
-        else:
-            return {"text": ["あなたのセーブデータを作成しました！"]}

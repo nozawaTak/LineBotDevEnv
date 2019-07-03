@@ -30,4 +30,11 @@ LINEのMessage APIを使ってBotを作る．
 
   - Flask
 
-  
+
+
+
+### 使用させてもらった素材
+
+http://mwhidesp.konjiki.jp/
+
+https://hpgpixer.jp/

@@ -9,7 +9,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
+    MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
 )
 
 app = Flask(__name__)
@@ -39,8 +39,8 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    replyTexts = playGame(event)
-    reply = makeReply(replyTexts)
+    replyRaw = playGame(event)
+    reply = makeReply(replyRaw)
     line_bot_api.reply_message(
         event.reply_token,
         reply)
@@ -48,14 +48,20 @@ def handle_message(event):
 def playGame(event):
     message = getUserMessage(event)
     userId = getUserId(event)
-    game = Game(userId)
-    reply = game.step()
+    userName = getUserName(userId)
+    game = Game(userId, userName)
+    reply = game.step(message)
     return reply
 
-def makeReply(textList):
+def makeReply(replyDict):
     reply = []
-    for text in textList:
-        reply.append(TextSendMessage(text=text))
+    if "img" in replyDict:
+        imageURI = replyDict["img"]
+        reply.append(ImageSendMessage(original_content_url=imageURI, preview_image_url=imageURI))
+    if "text" in replyDict:
+        textList = replyDict["text"]
+        for text in textList:
+            reply.append(TextSendMessage(text=text))
     return reply
 
 
@@ -75,6 +81,10 @@ def getUserMessage(event):
 
 def getUserId(event):
     return event.source.user_id
+
+def getUserName(userId):
+    profile = line_bot_api.get_profile(userId)
+    return profile.display_name
 
 if __name__ == "__main__":
     app.run()

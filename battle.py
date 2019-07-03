@@ -42,7 +42,7 @@ class Battle():
                 return self._defeated()
             reply = self.result
             self.result = []
-            return reply
+            return {"text": reply}
         else:
             self._enemyAttackTurn()
             if (self.player.hp <= 0):
@@ -52,7 +52,7 @@ class Battle():
                 return self._defeat()
             reply = self.result
             self.result = []
-            return reply
+            return {"text": reply}
 
     def _playerAttackTurn(self):
         damage = self._calcDamage(self.player.attack, self.enemy.defense)
@@ -69,24 +69,24 @@ class Battle():
     
     def _defeat(self):
         text = self.enemy.name + "に勝った！\n"
-        text += str(self.enemy.money) + "円獲得した!\n"
+        text += str(self.enemy.money) + "円獲得した!"
         self.player.money = self.player.money + self.enemy.money
         self.result.append(text)
         self._finishBattle()
         reply = self.result
         self.result = []
-        return reply
+        return {"text": reply}
 
     def _defeated(self):
         loss = self.player.money // 3
         text = self.enemy.name + "に負けてしまった...\n"
-        text += str(loss) + "円失ってしまった...\n"
+        text += str(loss) + "円失ってしまった..."
         self.player.money = self.player.money - loss
         self.result.append(text)
         self._finishBattle()
         reply = self.result
         self.result = []
-        return reply
+        return {"text": reply}
 
     def _damageProcess(self, character, damage):
         text = character.name + "に" + str(damage) + "のダメージ！！"

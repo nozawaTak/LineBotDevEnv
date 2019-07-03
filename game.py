@@ -32,8 +32,8 @@ class Game():
         with self.connection.cursor() as cursor:
             name = userName
             money = 1000
-            position_x = 0
-            position_y = 0
+            position_x = 200
+            position_y = 200
             hp = 30
             state = "BATTLE"
             battleID = None

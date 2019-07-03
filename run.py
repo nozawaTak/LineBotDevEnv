@@ -58,6 +58,7 @@ def makeReply(replyDict):
     if "img" in replyDict:
         imageURI = replyDict["img"]
         reply.append(ImageSendMessage(original_content_url=imageURI, preview_image_url=imageURI))
+        print("sendImage")
     if "text" in replyDict:
         textList = replyDict["text"]
         for text in textList:

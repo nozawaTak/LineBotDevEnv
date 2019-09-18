@@ -56,6 +56,7 @@ def handle_postback(event):
 
 def playGame(event):
     message = getUserMessage(event)
+    print(message)
     userId = getUserId(event)
     userName = getUserName(userId)
     game = Game(userId)

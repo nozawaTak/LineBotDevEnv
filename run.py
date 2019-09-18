@@ -121,10 +121,11 @@ def makeEcho(event, doList):
 def getUserMessage(event):
     if hasattr(event, 'message'):
         return event.message.text
-    elif hasattr(event, 'data'):
-        return event.data['direction']
+    elif hasattr(event, 'postback'):
+        if event.postback.data['action'] == 'move':
+            return event.postback.data['direction']
 
-def getUserId(event):
+def getUserId(event):b
     return event.source.user_id
 
 def getUserName(userId):

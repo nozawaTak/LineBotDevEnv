@@ -63,7 +63,8 @@ class Battle():
         self._damageProcess(self.player, damage)
 
     def _calcDamage(self, attack, defense):
-        damage = attack - defense
+        magni = random.uniform(0.7, 1.2)
+        damage = int((attack - defense) * magni)
         return damage if damage > 0 else 1
 
     

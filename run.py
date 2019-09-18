@@ -9,7 +9,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
+    MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, TemplateSendMessage, ButtonsTemplate, PostbackAction, PostbackEvent
 )
 
 app = Flask(__name__)
@@ -45,6 +45,15 @@ def handle_message(event):
         event.reply_token,
         reply)
 
+@handler.add(PostbackEvent)
+def handle_postback(event):
+    replyRaw = playGame(event)
+    reply = makeReply(replyRaw)
+    line_bot_api.reply_message(
+        event.reply_token,
+        reply)
+
+
 def playGame(event):
     message = getUserMessage(event)
     userId = getUserId(event)
@@ -59,6 +68,32 @@ def playGame(event):
 def makeReply(replyDict):
     reply = []
     print(replyDict)
+    if "worldImg" in replyDict:
+        imageList = replyDict["worldImg"]
+        for imageURI in imageList:
+            reply.append(TemplateSendMessage(alt_text='Buttons template',
+                                            template=ButtonsTemplate(thumbnail_image_url=imageURI,
+                                            title='世界地図',
+                                            text='移動方向',
+                                            actions=[
+                                                PostbackAction(
+                                                    label='←',
+                                                    data='左'
+                                                ),
+                                                PostbackAction(
+                                                    label='↑',
+                                                    data='上'
+                                                ),
+                                                PostbackAction(
+                                                    label='↓',
+                                                    data='下'
+                                                ),
+                                                PostbackAction(
+                                                    label='→',
+                                                    data='右'
+                                                ),
+                                            ])
+                                            ))
     if "img" in replyDict:
         imageList = replyDict["img"]
         print(imageList)
@@ -83,7 +118,10 @@ def makeEcho(event, doList):
 
 
 def getUserMessage(event):
-    return event.message.text
+    if message in event:
+        return event.message.text
+    elif data in event:
+        return event.data
 
 def getUserId(event):
     return event.source.user_id

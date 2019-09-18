@@ -49,7 +49,7 @@ class Game():
         self.connection.commit()
         world = World(userID)
         imageURI = world.getInitMap()
-        return {"img": [imageURI], "text": ["あなたのセーブデータを作成しました！"]}
+        return {"worldImg": [imageURI], "text": ["あなたのセーブデータを作成しました！"]}
         
     def step(self, text):
         if self.player is not None:
@@ -63,6 +63,6 @@ class Game():
                 if encount:
                     self.player.state = "BATTLE"
                     return {"img": [imageURI, enemyInfo["img"]], "text": [enemyInfo["text"]]}
-                return {"img": [imageURI]}
+                return {"worldImg": [imageURI]}
             else:
                 return {"text": ["still not implemented"]}

@@ -125,7 +125,7 @@ def getUserMessage(event):
         if event.postback.data['action'] == 'move':
             return event.postback.data['direction']
 
-def getUserId(event):b
+def getUserId(event):
     return event.source.user_id
 
 def getUserName(userId):

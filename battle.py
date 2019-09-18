@@ -12,6 +12,7 @@ class Battle():
             self.player.battleID = self.spawnNewBattle(self._randomEnemyID())
         self.enemy = EnemyInstance(self.player.battleID)
         self.result = []
+        self.isFinish = False
 
     def spawnNewBattle(self, enemyID):
         enemy = Enemy(enemyID)
@@ -76,6 +77,7 @@ class Battle():
         self._finishBattle()
         reply = self.result
         self.result = []
+        self.isFinish = True
         return {"text": reply}
 
     def _defeated(self):
@@ -88,6 +90,7 @@ class Battle():
         self._finishBattle()
         reply = self.result
         self.result = []
+        self.isFinish = True
         return {"text": reply}
 
     def _damageProcess(self, character, damage):

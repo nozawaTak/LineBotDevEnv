@@ -56,7 +56,6 @@ def handle_postback(event):
 
 def playGame(event):
     message = getUserMessage(event)
-    print(message)
     userId = getUserId(event)
     userName = getUserName(userId)
     game = Game(userId)
@@ -72,29 +71,7 @@ def makeReply(replyDict):
     if "worldImg" in replyDict:
         imageList = replyDict["worldImg"]
         for imageURI in imageList:
-            reply.append(TemplateSendMessage(alt_text='Buttons template',
-                                            template=ButtonsTemplate(thumbnail_image_url=imageURI,
-                                            title='世界地図',
-                                            text='移動方向',
-                                            actions=[
-                                                PostbackAction(
-                                                    label='←',
-                                                    data='左'
-                                                ),
-                                                PostbackAction(
-                                                    label='↑',
-                                                    data='上'
-                                                ),
-                                                PostbackAction(
-                                                    label='↓',
-                                                    data='下'
-                                                ),
-                                                PostbackAction(
-                                                    label='→',
-                                                    data='右'
-                                                ),
-                                            ])
-                                            ))
+            reply.append(makeWorldMapTemplate(imageURI))
     if "img" in replyDict:
         imageList = replyDict["img"]
         print(imageList)
@@ -104,8 +81,36 @@ def makeReply(replyDict):
         textList = replyDict["text"]
         for text in textList:
             reply.append(TextSendMessage(text=text))
+    if "battlefinished" in replyDict:
+        reply.append(makeWorldMapTemplate(replyDict['battlefinished']))
     return reply
 
+
+def makeWorldMapTemplate(imageURI):
+    return TemplateSendMessage(alt_text='Buttons template',
+                            template=ButtonsTemplate(thumbnail_image_url=imageURI,
+                                title='世界地図',
+                                text='移動方向',
+                                actions=[
+                                    PostbackAction(
+                                        label='←',
+                                        data='左'
+                                    ),
+                                    PostbackAction(
+                                        label='↑',
+                                        data='上'
+                                    ),
+                                    PostbackAction(
+                                        label='↓',
+                                        data='下'
+                                    ),
+                                    PostbackAction(
+                                        label='→',
+                                        data='右'
+                                    ),
+                                ]
+                            )
+            )
 
 def makeEcho(event, doList):
     reply = []

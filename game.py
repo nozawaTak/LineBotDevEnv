@@ -55,7 +55,12 @@ class Game():
         if self.player is not None:
             if self.player.state == "BATTLE":
                 battle = Battle(self.player.userId)
-                return battle.battle()
+                reply = battle.battle()
+                if battle.isFinish == True:
+                    world = World(self.player.userId)
+                    imageURI = world.getInitMap()
+                    reply['battlefinished'] = imageURI
+                return reply
             elif self.player.state == "WORLD":
                 world = World(self.player.userId)
                 imageURI = world.move(text)

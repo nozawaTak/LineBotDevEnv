@@ -79,19 +79,19 @@ def makeReply(replyDict):
                                             actions=[
                                                 PostbackAction(
                                                     label='←',
-                                                    data='左'
+                                                    data='action=move&direction=左'
                                                 ),
                                                 PostbackAction(
                                                     label='↑',
-                                                    data='上'
+                                                    data='action=move&direction=上'
                                                 ),
                                                 PostbackAction(
                                                     label='↓',
-                                                    data='下'
+                                                    data='action=move&direction=下'
                                                 ),
                                                 PostbackAction(
                                                     label='→',
-                                                    data='右'
+                                                    data='action=move&direction=右'
                                                 ),
                                             ])
                                             ))
@@ -122,7 +122,7 @@ def getUserMessage(event):
     if hasattr(event, 'message'):
         return event.message.text
     elif hasattr(event, 'data'):
-        return event.data
+        return event.data['direction']
 
 def getUserId(event):
     return event.source.user_id

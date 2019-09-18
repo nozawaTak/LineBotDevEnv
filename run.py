@@ -118,9 +118,9 @@ def makeEcho(event, doList):
 
 
 def getUserMessage(event):
-    if message in event:
+    if hasattr(event, 'message'):
         return event.message.text
-    elif data in event:
+    elif hasattr(event, 'data'):
         return event.data
 
 def getUserId(event):

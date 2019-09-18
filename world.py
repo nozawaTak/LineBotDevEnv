@@ -35,7 +35,7 @@ class World:
 
     def randomEncount(self):
         rnd = random.random()
-        if rnd < 0.3:
+        if rnd < 0.2:
             battle = Battle(self.userID)
             text = battle.enemy.name + "が現れた！"
             dbinfo = config.getInfoToConnectDB()
